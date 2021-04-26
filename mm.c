@@ -157,7 +157,7 @@ int mm_init(void)
 //
 static void *extend_heap(uint32_t words) 
 {
-  char *bp 
+  char *bp; 
   size_t size;
   
   size = (words % 2) ? (words + 1) * WSIZE : words * WSIZE;
@@ -179,8 +179,9 @@ static void *extend_heap(uint32_t words)
 //
 static void *find_fit(uint32_t asize)
 {
+    
     void *bp;
-    for(bp = heap_listp; GETSIZE(HRDP(bp)) > 0; bp = NEXT_BKLP(bp)) {
+    for(bp = heap_listp; GET_SIZE(HRDP(bp)) > 0; bp = NEXT_BLKP(bp)) {
         
     }
     
@@ -188,9 +189,7 @@ static void *find_fit(uint32_t asize)
            {
                return bp;
            }
-        
-
-  
+               ß
 }
  return NULL; /* no fit */
 // 
@@ -210,8 +209,8 @@ void mm_free(void *bp)
 //
 static void *coalesce(void *bp) 
 {
-    size_t = prev_alloc = GET_ALLOC(FTRP(PREV_BLKP(bp)));
-    size_t = next_alloc = GET_ALLOC(HRDP(NEXT_BLKP(bp)));
+    size_t prev_alloc = GET_ALLOC(FTRP(PREV_BLKP(bp)));
+    size_t  next_alloc = GET_ALLOC(HRDP(NEXT_BLKP(bp)));
     size_t size = GET_SIZE(HRDP(bp));
     if(prev_alloc && next_alloc)
     {
