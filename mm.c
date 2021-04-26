@@ -180,7 +180,7 @@ static void *extend_heap(uint32_t words)
 static void *find_fit(uint32_t asize)
 {
     void *bp;
-    for(bp = heap_listp; GETSIZE(HRDP(bp)) > 0l bp = NEXT_BKLP(bp)) {
+    for(bp = heap_listp; GETSIZE(HRDP(bp)) > 0; bp = NEXT_BKLP(bp)) {
         
     }
     
