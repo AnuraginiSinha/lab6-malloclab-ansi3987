@@ -184,7 +184,7 @@ static void *find_fit(uint32_t asize)
     for(bp = heap_listp; GET_SIZE(HDRP(bp)) > 0; bp = NEXT_BLKP(bp)) {
         if(!GET_ALLOC(HRDP(bp)) && (asize <= GET_SIZE(HRDP(bp)))) {
             return bp;
-        }
+        
     }
 }
 return NULL; //no fit
