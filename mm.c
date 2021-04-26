@@ -163,6 +163,12 @@ static void *extend_heap(uint32_t words)
   size = (words % 2) ? (words + 1) * WSIZE : words * WSIZE;
   if((long)(bp = mem_sbrk(size)) == -1)
   return NULL;
+  
+  PUT(HRDP(bp),PACK(size,0));
+  PUT(FTRP(bp),PACK(size,0));
+  PUT(HDRP(NEXT_BLKP(bp)),PACK(0,1));
+    
+  return coalesce(bp);
 }
 
 
