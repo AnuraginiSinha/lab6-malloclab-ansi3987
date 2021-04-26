@@ -179,22 +179,15 @@ static void *extend_heap(uint32_t words)
 //
 static void *find_fit(uint32_t asize)
 {
-    
     void *bp;
-    for(bp = heap_listp; GET_SIZE(HDRP(bp)) > 0; bp = NEXT_BLKP(bp)) {
-        
-    }
     
-        if(!GET_ALLOC(HDRP(bp)) && (asize <= GET_SIZE(HDRP(bp))))
-           {
-               return bp;
-           }
-               
+    for(bp = heap_listp; GET_SIZE(HDRP(bp)) > 0; bp = NEXT_BLKP(bp)) {
+        if(!GET_ALLOC(HRDP(bp)) && (asize <= GET_SIZE(HRDP(bp)))) {
+            return bp;
+        }
+    }
 }
-return NULL; /* no fit */
-// 
-// mm_free - Free a block 
-//
+return NULL; //no fit
 void mm_free(void *bp)
 {
   size_t size = GET_SIZE(HDRP(bp));
@@ -230,16 +223,18 @@ static void *coalesce(void *bp)
         PUT(HDRP(PREV_BLKP(bp)), PACK(size,0));
         bp = PREV_BLKP(bp);
     }
-    else 
-    {
-       size+= GET_SIZE(HDRP(PREV_BLKP)(bp))) + GET_SIZE(FTRP(NEXT_BLKP(bp)));
-       
+    else {
+        size+= GET_SIZE(HRDP(PREV_BLKP(bp))) +
+            GET_SIZE(FTRP(NEXT_BKLP(bp)));
         PUT(HDRP(PREV_BLKP(bp)),PACK(size,0));
         PUT(FTRP(NEXT_BLKP(bp)),PACK(size,0));
+        bp = PREV_BLKP(bp);
     }
     
   return bp;
+    
 }
+
 
 //
 // mm_malloc - Allocate a block with at least size bytes of payload 
@@ -286,7 +281,7 @@ static void place(void *bp, uint32_t asize)
     if((csize - asize) >= (2*DSIZE)) {
         PUT(HDRP(bp),PACK(asize,1));
         PUT(FTRP(bp),PACK(asize,1));
-        bp = NEXT_BKLP(bp);
+        bp = NEXT_BLKP(bp);
         PUT(HDRP(bp),PACK(csize - asize,0));
         PUT(FTRP(bp), PACK(csize - asize,0));
         
